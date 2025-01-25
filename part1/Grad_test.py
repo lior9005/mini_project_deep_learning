@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from part2 import NeuralNetwork
 
 # Gradient test function
 def softmax_gradient_test(F, g_F, W, b, epsilon=0.05, max_iter=8):
@@ -33,7 +34,6 @@ def gradient_test_layer(F, g_F, x, title, epsilon=0.5, max_iter=8):
     y0 = []  # Errors for zero-order 
     y1 = []  # Errors for first-order
 
-    print(f"{'k':<3}\t{'error order 0':<20}{'error order 1':<20}")
     for k in range(max_iter):
         epsk = epsilon * (0.5 ** k)
         Fk = F(x + epsk * d)
@@ -41,6 +41,7 @@ def gradient_test_layer(F, g_F, x, title, epsilon=0.5, max_iter=8):
         y0.append(abs(Fk - F0))
         y1.append(abs(Fk - F1))
     plot_grad_test(y0, y1, max_iter, title)
+
 
 def plot_grad_test(y0, y1,max_iter, title):
     # Plotting
