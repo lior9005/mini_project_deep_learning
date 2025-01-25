@@ -12,13 +12,17 @@ import part1.Utils as Utils
 if __name__ == "__main__":
         # Load the data
         train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
-        layers = [train_data.shape[1], 10, len(np.unique(train_labels))]
 
-        # initialize and train the model
+        ## Set the hyperparameters
+        hidden_layer = [10, 10, 10]  # Set the hidden layer values manually
+        batch_size=32
+        epochs=150
+        learning_rate=0.1
+
+        layers = [train_data.shape[1]] + hidden_layer + [len(np.unique(train_labels))]
         model = NeuralNetwork(layers, activation='ReLU')
-        loss = model.train(train_data, train_labels, val_data, val_labels, batch_size=32, epochs=150, learning_rate=0.1)
-
-        # Plot the loss
+        loss = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
+        
         plt.plot(loss)
         plt.title("Loss")
         plt.xlabel("Epoch")

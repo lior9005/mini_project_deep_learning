@@ -1,28 +1,42 @@
 import numpy as np
 
 class NeuralNetwork:
-    def __init__(self, layers,activation, model_type = None):
+    def __init__(self, layers,activation, is_resNet = False):
         self.layers = layers
         self.X_arrays = []
         self.gradient_B = []
         self.gradient_W = []
-        self.model_type = model_type
-        self.weights, self.biases = self.initialize_weights_and_biases()
+        self.gradient_W2 = []
+        self.is_resNet = is_resNet
+        self.weights, self.weights2, self.biases = self.initialize_weights_and_biases()
 
         activation_functions = {
             "ReLU": self.ReLU,
             "TanH": self.TanH
         }
         self.activation = activation_functions[activation]
+        self.check_resNet()
 
+    def check_resNet(self):
+        if self.is_resNet:
+            if len(self.layers) < 4:
+                raise ValueError("For ResNet, the number of hidden layers must be 2 or more.")
+            hidden_layer_size = self.layers[1]
+            for layer_size in self.layers[1:-1]:
+                if layer_size != hidden_layer_size:
+                    raise ValueError("For ResNet, all hidden layers must have the same size.")
+                
     def softmax(self, X):
         exp_x = np.exp(X - np.max(X, axis=1, keepdims=True))
         return exp_x / np.sum(exp_x, axis=1, keepdims=True)
 
     def forward(self, X):
         self.X_arrays = [X]
-        for W, b in zip(self.weights, self.biases):
-            X = self.activation(np.dot(X, W) + b, False)
+        for W, W2, b in zip(self.weights, self.weights2, self.biases):
+            if self.is_resNet:
+                X = X + np.dot(self.activation(np.dot(X, W) + b, False), W2)
+            else:
+                X = self.activation(np.dot(X, W) + b, False)
             self.X_arrays.append(X)
         return self.softmax(X)
 
@@ -33,8 +47,16 @@ class NeuralNetwork:
 
         v = self.softmax_gradients(X_softmax, Y)
 
-        for i in range(len(self.layers) - 3, -1, -1):
-            v = self.layer_gradients(v, i)
+        if self.is_resNet:
+            self.gradient_W2 = []
+            for i in range(len(self.layers) - 3, 0, -1):
+                v = self.resNet_layer_gradients(v, i)
+            v = self.layer_gradients(v, 0)
+            ## dummy gradient for the first layer
+            self.gradient_W2.insert(0, 0)
+        else:
+            for i in range(len(self.layers) - 3, -1, -1):
+                v = self.layer_gradients(v, i)
 
         self.update_weights_biases(learning_rate)
 
@@ -79,6 +101,29 @@ class NeuralNetwork:
         self.gradient_B.insert(0, db)
         
         return v
+    
+    def resNet_layer_gradients(self, v, index):
+        W = self.weights[index]
+        W2 = self.weights2[index]
+        b = self.biases[index]
+        X = self.X_arrays[index]
+        X_next = self.X_arrays[index + 1]
+        m = X.shape[0]
+        sigma_prime = self.activation(np.dot(X, W) + b, True)
+        sigma_prime_W2T_v = sigma_prime * np.dot(v, W2.T)
+
+        ## do we need to divide by m or not?
+        dW = np.dot(X.T, sigma_prime_W2T_v) / m
+        dW2 = np.dot(X_next.T, v) / m
+        ## do we need to divide by m or not?
+        db = sigma_prime_W2T_v / m
+        v = v + np.dot(sigma_prime_W2T_v, W.T)
+
+        self.gradient_W.insert(0, dW)
+        self.gradient_W2.insert(0, dW2)
+        self.gradient_B.insert(0, db)
+        
+        return v
 
     def softmax_gradients(self, X_soft, Y):
         m = X_soft.shape[0]
@@ -92,6 +137,7 @@ class NeuralNetwork:
         db = np.sum(soft_minus_C, axis=0, keepdims=True)
 
         self.gradient_W.insert(0, dW)
+        self.gradient_W2.insert(0, 0)   ## dummy gradient for the last layer
         self.gradient_B.insert(0, db)
 
         return v
@@ -111,20 +157,26 @@ class NeuralNetwork:
 
     def initialize_weights_and_biases(self):
         weights = []
+        weights2 = []
         biases = []
         for i in range(len(self.layers) - 1):
             n_1 = self.layers[i+1]
             n_2 = self.layers[i]
             W = np.random.randn(n_2, n_1)
             W /= np.linalg.norm(W)  # Normalize weights
+            W2 = np.random.randn(n_2, n_1)
+            W2 /= np.linalg.norm(W2)
             weights.append(W)
+            weights2.append(W2)
             biases.append(np.zeros((1, n_1)))
-        return weights, biases
+        return weights, weights2, biases
 
     def update_weights_biases(self, learning_rate):
         for i in range(len(self.weights)):
             self.weights[i] -= learning_rate * self.gradient_W[i]
             self.biases[i] -= learning_rate * self.gradient_B[i]
+            if self.is_resNet:
+                self.weights2[i] -= learning_rate * self.gradient_W2[i]
 
     def get_batch(self, train_data, y, batch_size, batch_index):
         start = batch_index * batch_size
