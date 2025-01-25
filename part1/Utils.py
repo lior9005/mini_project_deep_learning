@@ -5,7 +5,7 @@ def compute_mse(w, X, y):
     errors = X @ w - y
     return np.mean(errors**2)
 
-def compute_accuracy_part(X, y, W, b):
+def compute_accuracy_part1(X, y, W, b):
     logits = X.dot(W) + b  # Compute logits
     probs = softmax(logits)  # Compute probabilities
     predictions = np.argmax(probs, axis=1)  # Get class predictions
@@ -36,9 +36,9 @@ def softmax_loss(X, y, W, b):
 # Gradient of the loss function with respect to W and b
 def softmax_gradient(X, y, W, b):
     m = X.shape[0]
-    z = X.dot(W) + b
+    z = np.dot(X , W) + b
     probs = softmax(z)
-    probs[range(m), y] -= 1
+    probs[np.arange(m), y] -= 1
     dW = X.T.dot(probs) / m
     db = np.sum(probs, axis=0) / m
     return dW, db

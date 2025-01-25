@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import part1.Utils as Utils
+import Utils as Utils
 
 # setup the data
 def setup_synthetic_data(m, n):
@@ -65,40 +65,40 @@ def synthetic_sgd(X, y, lambda_, lr, mini_batch_size, epochs):
         loss.append(mse)
     return loss
 
-def softmax_sgd(X_train, y_train, X_val, y_val, lr=0.1, batch_size=32, epochs=100, lambda_=0.001):
+def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
     num_features = X_train.shape[1]
     num_classes = len(np.unique(y_train))
     np.random.seed(42)  
-    W = np.random.randn(num_features, num_classes)  # Initialize weights (n_features x n_classes)
-    b = np.random.randn(num_classes)  # Initialize biases (one per class)
+    W = np.random.randn(num_features, num_classes)
+    W /= np.linalg.norm(W) 
+    b = np.zeros(num_classes)  # Initialize biases (n_classes)
     
     train_accuracies = []
     val_accuracies = []
 
     for epoch in range(epochs):
         # Shuffle data
-        idxs = np.random.permutation(X_train.shape[0])
-        X_train_shuffled = X_train[idxs]
-        y_train_shuffled = y_train[idxs]
+        shuffled_indices = np.random.permutation(len(X_train))
+        train_data = X_train[shuffled_indices]
+        Y = y_train[shuffled_indices]
 
         # Mini-batch SGD
-        for i in range(0, X_train.shape[0], batch_size):
-            X_batch = X_train_shuffled[i:i + batch_size]
-            y_batch = y_train_shuffled[i:i + batch_size]
+        for i in range(len(train_data) // batch_size):
+            batch_X, batch_Y = get_batch(train_data, Y, batch_size, i)
             
             # Compute gradients for W and b
-            dW, db = Utils.softmax_gradient(X_batch, y_batch, W, b)
+            dW, db = Utils.softmax_gradient(batch_X, batch_Y, W, b)
 
             # Update weights and biases
             W -= lr * dW
             b -= lr * db
         
         # Track training accuracy
-        train_acc = Utils.compute_accuracy(X_train, y_train, W, b)
+        train_acc = Utils.compute_accuracy_part1(X_train, y_train, W, b)
         train_accuracies.append(train_acc)
         
         # Track validation accuracy
-        val_acc = Utils.compute_accuracy(X_val, y_val, W, b)
+        val_acc = Utils.compute_accuracy_part1(X_val, y_val, W, b)
         val_accuracies.append(val_acc)
 
         # Print progress every 10 epochs
@@ -112,7 +112,7 @@ def plot_accuracies(train_accuracies, val_accuracies):
     plt.plot(range(len(val_accuracies)), val_accuracies, label="Validation Accuracy", linewidth=2)
     plt.xlabel("Epoch", fontsize=14)
     plt.ylabel("Accuracy", fontsize=14)
-    plt.title("Accuracy vs Epochs", fontsize=16)
+    plt.title("Softmax SGD", fontsize=16)
     plt.legend(fontsize=12)
     plt.grid(True)
     plt.show()
@@ -139,9 +139,14 @@ def run_synthetic_example(m, n, lr=0.1, mini_batch_size=10, epochs= 200):
     plt.grid(True)
     plt.show()
 
+def get_batch(train_data, y, batch_size, batch_index):
+    start = batch_index * batch_size
+    end = start + batch_size
+    return train_data[start:end], y[start:end]
+
 if __name__ == "__main__":
     train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
     #train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/SwissRollData.mat")
     #train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
-    train_acc, val_acc = softmax_sgd(train_data, train_labels, val_data, val_labels, lr=0.1, batch_size=32, epochs=100, lambda_=0.001)
+    train_acc, val_acc = sgd(train_data, train_labels, val_data, val_labels, lr=1, batch_size = 20, epochs=100)
     plot_accuracies(train_acc, val_acc)
