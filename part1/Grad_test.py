@@ -1,12 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Gradient test function
+def plot_grad_test(y0, y1,max_iter, title):
+    # Plotting
+    plt.figure()
+    plt.semilogy(range(max_iter), y0, label="Zero order approx (O(ϵ))")
+    plt.semilogy(range(max_iter), y1, label="First order approx (O(ϵ²))")
+    plt.legend()
+    plt.title(title)
+    plt.xlabel("k")
+    plt.ylabel("Error")
+    plt.grid()
+    plt.show()
+    
 def softmax_gradient_test(F, g_F, W, b, epsilon=0.05, max_iter=8):
     F0 = F(W, b)                
     g_F_W, g_F_b = g_F(W,b)  
 
-    #random vectors   
     d_W = np.random.randn(*W.shape)
     d_b = np.random.randn(*b.shape)
 
@@ -24,7 +34,7 @@ def softmax_gradient_test(F, g_F, W, b, epsilon=0.05, max_iter=8):
         y0.append(abs(Fk - F0))      
         y1.append(abs(Fk - F1))     
         print(f"{k:<3}\t{y0[-1]:<20.6e}{y1[-1]:<20.6e}")  
-    plot_grad_test(y0, y1, max_iter)
+    plot_grad_test(y0, y1, max_iter, "Softmax Gradient Test")
 
 def gradient_test_layer(F, g_F, x, title, epsilon=0.5, max_iter=8):
     F0 = F(x)
@@ -42,14 +52,4 @@ def gradient_test_layer(F, g_F, x, title, epsilon=0.5, max_iter=8):
         y1.append(abs(Fk - F1))
     plot_grad_test(y0, y1, max_iter, title)
 
-def plot_grad_test(y0, y1,max_iter, title):
-    # Plotting
-    plt.figure()
-    plt.semilogy(range(max_iter), y0, label="Zero order approx (O(ϵ))")
-    plt.semilogy(range(max_iter), y1, label="First order approx (O(ϵ²))")
-    plt.legend()
-    plt.title(title)
-    plt.xlabel("k")
-    plt.ylabel("Error")
-    plt.grid()
-    plt.show()
+
