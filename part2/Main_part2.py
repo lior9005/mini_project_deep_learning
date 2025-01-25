@@ -11,6 +11,7 @@ import part1.Utils as Utils
 import Jack_test as jack_test
 
 if __name__ == "__main__":
+        # Load the data
         train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
 
         ## Set the hyperparameters
