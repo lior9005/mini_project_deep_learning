@@ -47,3 +47,11 @@ def softmax_gradient(X, Y, W, b):
     db = np.sum(soft_minus_C, axis=0, keepdims=True)
 
     return dW, db
+
+def calculate_total_params(layers, is_resNet):
+    total = 0
+    for i in range(len(layers) - 1):
+        total += layers[i] * layers[i + 1] + layers[i + 1]
+    if is_resNet:
+        total += (layers[1] ** 2) * (len(layers) -3)
+    return total

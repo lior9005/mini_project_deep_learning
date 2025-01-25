@@ -47,7 +47,7 @@ class NeuralNetwork:
         return X_soft
 
     # check the range of the for loop, maybe there is too many iterations or indexes not correct
-    def backward(self, X_softmax, Y, learning_rate):
+    def backward(self, X_softmax, Y):
         self.gradient_W = []
         self.gradient_W2 = []
         self.gradient_B = []
@@ -63,12 +63,13 @@ class NeuralNetwork:
         else:
             for i in range(len(self.layers) - 3, -1, -1):
                 v = self.layer_gradients(v, i)
-
-        self.update_weights_biases(learning_rate)
+        return v
+        
 
     # fix the way to get batch
     def train(self, train_data, Y, X_val, Y_val, batch_size, epochs, learning_rate):
         loss_list = []
+        accuracy_list = []
         for epoch in range(epochs):
             shuffled_indices = np.random.permutation(len(train_data))
             train_data = train_data[shuffled_indices]
@@ -76,15 +77,18 @@ class NeuralNetwork:
             for i in range(len(train_data) // batch_size):
                 train_X, train_Y = self.get_batch(train_data, Y, batch_size, i)
                 X_soft = self.forward(train_X)
-                self.backward(X_soft, train_Y, learning_rate)
+                self.backward(X_soft, train_Y)
+                self.update_weights_biases(learning_rate)
 
             ## after finishing each epoch, take a random batch and calculate the loss
             loss = self.calculate_loss(X_val, Y_val)
-            if epoch % 10 == 0:
-                print(f'Epoch {epoch}/{epochs}, loss: {loss:.4f}')
+            accuracy = self.calculate_accuracy(X_val, Y_val)
+            # if epoch % 10 == 0:
+            #     print(f'Epoch {epoch}/{epochs}, loss: {loss:.4f}, accuracy: {accuracy:.4f}')
             loss_list.append(loss)
+            accuracy_list.append(accuracy)
                 
-        return loss_list
+        return loss_list, accuracy_list
 
     def eval(self, test_data):
         return self.forward(test_data)

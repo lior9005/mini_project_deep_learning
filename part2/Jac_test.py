@@ -1,4 +1,6 @@
 import numpy as np
+import part1.Utils as Utils
+import NeuralNetwork
 import part1.Grad_test as grad_test
 
 def jac_test_layer(in_dim, out_dim):
