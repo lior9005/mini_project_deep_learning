@@ -28,7 +28,6 @@ def softmax(X):
     exp_x = np.exp(X - np.max(X, axis=1, keepdims=True))
     return exp_x / np.sum(exp_x, axis=1, keepdims=True)
 
-# Loss function for softmax regression
 def softmax_loss(X, y, W, b):
     m = X.shape[0]  # Number of samples
     X_soft = softmax(np.dot(X, W) + b)  # Compute probabilities
@@ -37,10 +36,9 @@ def softmax_loss(X, y, W, b):
     return loss
 
 
-# Gradient of the loss function with respect to W and b
 def softmax_gradient(X, Y, W, b):
     m = X.shape[0]
-    X_soft = softmax(np.dot(X, W) + b)  # Compute probabilities
+    X_soft = softmax(np.dot(X, W) + b)  
     soft_minus_C = X_soft
     soft_minus_C[np.arange(m), Y] -= 1 #substract 1 from the correct class probabilty for each input
     soft_minus_C /= m    

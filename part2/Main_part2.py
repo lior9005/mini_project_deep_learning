@@ -5,6 +5,7 @@ import time
 # Add the parent directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+
 import numpy as np
 import matplotlib.pyplot as plt
 from NeuralNetwork import NeuralNetwork
@@ -13,8 +14,9 @@ import Jac_test
 import matplotlib.pyplot as plt
 import part1.Grad_test as grad_test
 
+
 if __name__ == "__main__":
-        # Load the data
+       
         train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
 
         # 2.1 + 2.2
