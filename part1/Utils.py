@@ -5,18 +5,23 @@ def compute_mse(w, X, y):
     errors = X @ w - y
     return np.mean(errors**2)
 
-def compute_accuracy_part1(X, y, W, b):
-    logits = X.dot(W) + b  # Compute logits
-    probs = softmax(logits)  # Compute probabilities
-    predictions = np.argmax(probs, axis=1)  # Get class predictions
-    return np.mean(predictions == y)  # Compare with true labels
+def compute_accuracy(X, Y, W, b):
+    X_soft = softmax(np.dot(X, W) + b)  # Compute probabilities
+    class_predictions = np.argmax(X_soft, axis=1)  # Get class predictions
+    correct = np.sum(class_predictions == Y)
+    accuracy = correct / Y.shape[0]
+    return accuracy
+
+def get_samples(X, Y, n_samples):
+    idxs = np.random.choice(X.shape[0], min(n_samples,X.shape[0]), replace=False)
+    return X[idxs], Y[idxs]
 
 def load_data(path):
     dataset = scipy.io.loadmat(path)
     train_data = dataset['Yt'].T  
-    train_labels = np.argmax(dataset['Ct'], axis=0).astype(int)
+    train_labels = dataset['Ct'].flatten()[:train_data.shape[0]].astype(int)
     val_data = dataset['Yv'].T
-    val_labels = np.argmax(dataset['Cv'], axis=0).astype(int)
+    val_labels = dataset['Cv'].flatten()[:val_data.shape[0]].astype(int)
     return train_data, train_labels, val_data, val_labels
 
 def softmax(X):
@@ -26,19 +31,21 @@ def softmax(X):
 # Loss function for softmax regression
 def softmax_loss(X, y, W, b):
     m = X.shape[0]  # Number of samples
-    z = X.dot(W) + b
-    probs = softmax(z)
-    correct_log_probs = -np.log(probs[range(m), y])
+    X_soft = softmax(np.dot(X, W) + b)  # Compute probabilities
+    correct_log_probs = -np.log(X_soft[range(m), y])
     loss = np.sum(correct_log_probs) / m
     return loss
 
 
 # Gradient of the loss function with respect to W and b
-def softmax_gradient(X, y, W, b):
+def softmax_gradient(X, Y, W, b):
     m = X.shape[0]
-    z = np.dot(X , W) + b
-    probs = softmax(z)
-    probs[np.arange(m), y] -= 1
-    dW = X.T.dot(probs) / m
-    db = np.sum(probs, axis=0) / m
+    X_soft = softmax(np.dot(X, W) + b)  # Compute probabilities
+    soft_minus_C = X_soft
+    soft_minus_C[np.arange(m), Y] -= 1 #substract 1 from the correct class probabilty for each input
+    soft_minus_C /= m    
+
+    dW = np.dot(X.T, soft_minus_C)
+    db = np.sum(soft_minus_C, axis=0, keepdims=True)
+
     return dW, db

@@ -1,7 +1,7 @@
 import numpy as np
 
 class NeuralNetwork:
-    def __init__(self, layers,activation, is_resNet = False):
+    def __init__(self, layers, activation, is_resNet = False):
         self.layers = layers
         self.X_arrays = []
         self.gradient_B = []
@@ -32,28 +32,34 @@ class NeuralNetwork:
 
     def forward(self, X):
         self.X_arrays = [X]
-        for W, W2, b in zip(self.weights, self.weights2, self.biases):
-            if self.is_resNet:
-                X = X + np.dot(self.activation(np.dot(X, W) + b, False), W2)
-            else:
+        for i in range(len(self.layers) - 2):
+            W = self.weights[i]
+            b = self.biases[i]
+            if i==0 or self.is_resNet == False:
                 X = self.activation(np.dot(X, W) + b, False)
+            else:
+                W2 = self.weights2[i]
+                X = X + np.dot(self.activation(np.dot(X, W) + b, False), W2)
             self.X_arrays.append(X)
-        return self.softmax(X)
+        W = self.weights[-1]
+        b = self.biases[-1]
+        X_soft = self.softmax(np.dot(X, W) + b)
+        return X_soft
 
     # check the range of the for loop, maybe there is too many iterations or indexes not correct
     def backward(self, X_softmax, Y, learning_rate):
         self.gradient_W = []
+        self.gradient_W2 = []
         self.gradient_B = []
 
         v = self.softmax_gradients(X_softmax, Y)
 
         if self.is_resNet:
-            self.gradient_W2 = []
             for i in range(len(self.layers) - 3, 0, -1):
                 v = self.resNet_layer_gradients(v, i)
             v = self.layer_gradients(v, 0)
             ## dummy gradient for the first layer
-            self.gradient_W2.insert(0, 0)
+            self.gradient_W2.insert(0, self.weights2[0])
         else:
             for i in range(len(self.layers) - 3, -1, -1):
                 v = self.layer_gradients(v, i)
@@ -74,7 +80,8 @@ class NeuralNetwork:
 
             ## after finishing each epoch, take a random batch and calculate the loss
             loss = self.calculate_loss(X_val, Y_val)
-            print("Epoch: ", epoch, "Loss: ", loss)
+            if epoch % 10 == 0:
+                print(f'Epoch {epoch}/{epochs}, loss: {loss:.4f}')
             loss_list.append(loss)
                 
         return loss_list
@@ -116,7 +123,7 @@ class NeuralNetwork:
         dW = np.dot(X.T, sigma_prime_W2T_v) / m
         dW2 = np.dot(X_next.T, v) / m
         ## do we need to divide by m or not?
-        db = sigma_prime_W2T_v / m
+        db = np.sum(sigma_prime_W2T_v, axis=0, keepdims=True) / m
         v = v + np.dot(sigma_prime_W2T_v, W.T)
 
         self.gradient_W.insert(0, dW)
@@ -128,7 +135,7 @@ class NeuralNetwork:
     def softmax_gradients(self, X_soft, Y):
         m = X_soft.shape[0]
         W = self.weights[-1]
-        X = self.X_arrays[-2]
+        X = self.X_arrays[-1]
         soft_minus_C = X_soft
         soft_minus_C[np.arange(m), Y] -= 1 #substract 1 from the correct class probabilty for each input
         soft_minus_C /= m
@@ -137,8 +144,10 @@ class NeuralNetwork:
         db = np.sum(soft_minus_C, axis=0, keepdims=True)
 
         self.gradient_W.insert(0, dW)
-        self.gradient_W2.insert(0, 0)   ## dummy gradient for the last layer
         self.gradient_B.insert(0, db)
+
+        if self.is_resNet:
+            self.gradient_W2.insert(0, dW)   ## dummy gradient for the last layer
 
         return v
 
@@ -172,7 +181,7 @@ class NeuralNetwork:
         return weights, weights2, biases
 
     def update_weights_biases(self, learning_rate):
-        for i in range(len(self.weights)):
+        for i in range(len(self.layers) - 1):
             self.weights[i] -= learning_rate * self.gradient_W[i]
             self.biases[i] -= learning_rate * self.gradient_B[i]
             if self.is_resNet:

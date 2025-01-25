@@ -68,10 +68,10 @@ def synthetic_sgd(X, y, lambda_, lr, mini_batch_size, epochs):
 def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
     num_features = X_train.shape[1]
     num_classes = len(np.unique(y_train))
-    np.random.seed(42)  
-    W = np.random.randn(num_features, num_classes)
-    W /= np.linalg.norm(W) 
-    b = np.zeros(num_classes)  # Initialize biases (n_classes)
+    #np.random.seed(42)  
+    W = np.random.randn(num_features, num_classes)  # Initialize weights (n_features x n_classes)
+    W /= np.linalg.norm(W)  # Normalize weights
+    b = np.zeros((1, num_classes))
     
     train_accuracies = []
     val_accuracies = []
@@ -94,11 +94,13 @@ def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
             b -= lr * db
         
         # Track training accuracy
-        train_acc = Utils.compute_accuracy_part1(X_train, y_train, W, b)
+        X_sample, Y_sample = Utils.get_samples(X_train, y_train, batch_size)
+        train_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         train_accuracies.append(train_acc)
         
         # Track validation accuracy
-        val_acc = Utils.compute_accuracy_part1(X_val, y_val, W, b)
+        X_sample, Y_sample = Utils.get_samples(X_val, y_val, batch_size)
+        val_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         val_accuracies.append(val_acc)
 
         # Print progress every 10 epochs
