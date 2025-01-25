@@ -1,7 +1,7 @@
 import numpy as np
 import part1.Utils as Utils
 import NeuralNetwork
-import part1.grad_test as grad_test
+import part1.Grad_test as grad_test
 
 def jac_test_layer(in_dim, out_dim):
     X_rand = np.random.randn(1, in_dim)
@@ -21,7 +21,7 @@ def jac_test_layer(in_dim, out_dim):
         grad_X = np.dot(sigma_prime_u, W.T)
         return grad_X
 
-    grad_test.gradient_test(g_x, gradient_g_x, X_rand)
+    grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test')
 
 def jac_test_resnet_layer(dim):
     X_rand = np.random.randn(1, dim)
@@ -42,7 +42,7 @@ def jac_test_resnet_layer(dim):
         grad_X = u + np.dot(sigma_prime_W2T_u, W.T)
         return grad_X
 
-    grad_test.gradient_test(g_x, gradient_g_x, X_rand)
+    grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test - ResNet')
 
 def jac_test_softmax_layer(in_dim, out_dim):
     X_rand = np.random.randn(1, in_dim)
@@ -51,7 +51,6 @@ def jac_test_softmax_layer(in_dim, out_dim):
 
     def g_x(X):
         X_next = np.dot(X, W) + b
-        X_next = np.tanh(X_next)
         softmax_X = np.exp(X_next - np.max(X_next, axis=1, keepdims=True))
         softmax_X /= np.sum(softmax_X, axis=1, keepdims=True)
         pred_probs = softmax_X[np.arange(Y.shape[0]), Y]
@@ -60,7 +59,6 @@ def jac_test_softmax_layer(in_dim, out_dim):
     
     def gradient_g_x(X):
         X_next = np.dot(X, W) + b
-        X_next = np.tanh(X_next)
         softmax_X = np.exp(X_next - np.max(X_next, axis=1, keepdims=True))
         softmax_X /= np.sum(softmax_X, axis=1, keepdims=True)
 
@@ -69,14 +67,14 @@ def jac_test_softmax_layer(in_dim, out_dim):
 
         return grad_X
 
-    grad_test.gradient_test(g_x, gradient_g_x, X_rand)
+    grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test - Softmax')
 
 def initialize_weight_and_bias(in_dim, out_dim):
     W = np.random.randn(in_dim, out_dim)
     W /= np.linalg.norm(W)  # Normalize weights
     W2 = np.random.randn(in_dim, out_dim)
     W2 /= np.linalg.norm(W2)
-    b = np.random.randn((1, out_dim))
+    b = np.random.randn(1, out_dim)
     b /= np.linalg.norm(b)
     return W, W2, b
 

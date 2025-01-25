@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import part1.Utils as Utils
+import Utils
 
 # setup the data
 def setup_synthetic_data(m, n):
@@ -68,9 +68,10 @@ def synthetic_sgd(X, y, lambda_, lr, mini_batch_size, epochs):
 def softmax_sgd(X_train, y_train, X_val, y_val, lr=0.1, batch_size=32, epochs=100, lambda_=0.001):
     num_features = X_train.shape[1]
     num_classes = len(np.unique(y_train))
-    np.random.seed(42)  
+    #np.random.seed(42)  
     W = np.random.randn(num_features, num_classes)  # Initialize weights (n_features x n_classes)
-    b = np.random.randn(num_classes)  # Initialize biases (one per class)
+    W /= np.linalg.norm(W)  # Normalize weights
+    b = np.zeros((1, num_classes))
     
     train_accuracies = []
     val_accuracies = []
@@ -94,11 +95,13 @@ def softmax_sgd(X_train, y_train, X_val, y_val, lr=0.1, batch_size=32, epochs=10
             b -= lr * db
         
         # Track training accuracy
-        train_acc = Utils.compute_accuracy(X_train, y_train, W, b)
+        X_sample, Y_sample = Utils.get_samples(X_train, y_train, batch_size)
+        train_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         train_accuracies.append(train_acc)
         
         # Track validation accuracy
-        val_acc = Utils.compute_accuracy(X_val, y_val, W, b)
+        X_sample, Y_sample = Utils.get_samples(X_val, y_val, batch_size)
+        val_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         val_accuracies.append(val_acc)
 
         # Print progress every 10 epochs
