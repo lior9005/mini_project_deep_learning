@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from NeuralNetwork import NeuralNetwork
 import part1.Utils as Utils
-import Jack_test as jack_test
+import Jac_test
 
 if __name__ == "__main__":
         # Load the data
@@ -20,9 +20,9 @@ if __name__ == "__main__":
         epochs=200
         learning_rate=0.1
 
-        jack_test.jac_test_layer(2, 3)
-        jack_test.jac_test_resnet_layer(5)
-        jack_test.jac_test_softmax_layer(2, 3)
+        Jac_test.jac_test_layer(2, 3)
+        Jac_test.jac_test_resnet_layer(5)
+        Jac_test.jac_test_softmax_layer(2, 3)
 
         # layers = [train_data.shape[1]] + hidden_layer + [len(np.unique(train_labels))]
         # model = NeuralNetwork(layers, 'ReLU', True)

@@ -66,15 +66,19 @@ def synthetic_sgd(X, y, lambda_, lr, mini_batch_size, epochs):
     return loss
 
 def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
+    print(f"Training with learning rate: {lr}, batch size: {batch_size}, epochs: {epochs}")
+    num_of_tries = 30
     num_features = X_train.shape[1]
     num_classes = len(np.unique(y_train))
-    #np.random.seed(42)  
     W = np.random.randn(num_features, num_classes)  # Initialize weights (n_features x n_classes)
     W /= np.linalg.norm(W)  # Normalize weights
     b = np.zeros((1, num_classes))
     
     train_accuracies = []
     val_accuracies = []
+    avg_val_acc = 0
+    best_val_acc = -np.inf  # Initialize the best validation accuracy
+    epochs_without_improvement = 0  # Track how many epochs without improvement
 
     for epoch in range(epochs):
         # Shuffle data
@@ -103,10 +107,23 @@ def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
         val_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         val_accuracies.append(val_acc)
 
+        # Check for improvement in validation accuracy
+        if val_acc > best_val_acc:
+            best_val_acc = val_acc
+            epochs_without_improvement = 0  
+        else:
+            epochs_without_improvement += 1
+
+        # Stop early if no improvement for 'patience' epochs
+        if epochs_without_improvement >= num_of_tries:
+            print(f"Early stopping at epoch {epoch + 1}")
+            break
+
         # Print progress every 10 epochs
-        if epoch % 10 == 0:
-            print(f'Epoch {epoch}/{epochs}, Training Accuracy: {train_acc:.4f}, Validation Accuracy: {val_acc:.4f}')
-    return train_accuracies, val_accuracies
+    avg_val_acc = np.mean(val_accuracies[-10:])
+    print(f"Training Accuracy: {train_acc:.4f}, Average Validation Accuracy (last 10 epochs): {avg_val_acc:.4f}")
+    return train_accuracies, val_accuracies, avg_val_acc
+
 
 def plot_accuracies(train_accuracies, val_accuracies):
     plt.figure(figsize=(10, 6))
@@ -114,7 +131,7 @@ def plot_accuracies(train_accuracies, val_accuracies):
     plt.plot(range(len(val_accuracies)), val_accuracies, label="Validation Accuracy", linewidth=2)
     plt.xlabel("Epoch", fontsize=14)
     plt.ylabel("Accuracy", fontsize=14)
-    plt.title("Softmax SGD", fontsize=16)
+    plt.title("SGD", fontsize=16)
     plt.legend(fontsize=12)
     plt.grid(True)
     plt.show()
@@ -146,9 +163,21 @@ def get_batch(train_data, y, batch_size, batch_index):
     end = start + batch_size
     return train_data[start:end], y[start:end]
 
-if __name__ == "__main__":
-    train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
-    #train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/SwissRollData.mat")
-    #train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
-    train_acc, val_acc = sgd(train_data, train_labels, val_data, val_labels, lr=1, batch_size = 20, epochs=100)
-    plot_accuracies(train_acc, val_acc)
+def best_SGD_params(data_path, lr, batch_size, epochs):
+    train_data, train_labels, val_data, val_labels = Utils.load_data(data_path)
+    best_avg_val_acc = 0
+    best_val_acc_plot = []
+    best_train_acc_plot = []
+    for i in range(len(lr)):
+        for j in range(len(batch_size)):
+            train_acc, val_acc, avg_val_acc = sgd(train_data, train_labels, val_data, val_labels, lr[i], batch_size[j], epochs)
+            if avg_val_acc > best_avg_val_acc:
+                best_avg_val_acc = avg_val_acc
+                best_train_acc_plot = train_acc
+                best_val_acc_plot = val_acc
+                best_lr = lr[i]
+                best_batch_size = batch_size[j]
+            print()
+    print(f"Best validation accuracy: {best_avg_val_acc:.4f} with learning rate: {best_lr} and batch size: {best_batch_size}")            
+    plot_accuracies(best_train_acc_plot, best_val_acc_plot)
+    
