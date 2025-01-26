@@ -46,7 +46,6 @@ class NeuralNetwork:
         X_soft = self.softmax(np.dot(X, W) + b)
         return X_soft
 
-    # check the range of the for loop, maybe there is too many iterations or indexes not correct
     def backward(self, X_softmax, Y):
         self.gradient_W = []
         self.gradient_W2 = []
@@ -58,15 +57,12 @@ class NeuralNetwork:
             for i in range(len(self.layers) - 3, 0, -1):
                 v = self.resNet_layer_gradients(v, i)
             v = self.layer_gradients(v, 0)
-            ## dummy gradient for the first layer
-            self.gradient_W2.insert(0, self.weights2[0])
+            self.gradient_W2.insert(0, self.weights2[0]) # dummy gradient for the first layer of ResNet
         else:
             for i in range(len(self.layers) - 3, -1, -1):
                 v = self.layer_gradients(v, i)
         return v
         
-
-    # fix the way to get batch
     def train(self, train_data, Y, X_val, Y_val, batch_size, epochs, learning_rate):
         loss_list = []
         accuracy_list = []
@@ -80,11 +76,8 @@ class NeuralNetwork:
                 self.backward(X_soft, train_Y)
                 self.update_weights_biases(learning_rate)
 
-            ## after finishing each epoch, take a random batch and calculate the loss
             loss = self.calculate_loss(X_val, Y_val)
             accuracy = self.calculate_accuracy(X_val, Y_val)
-            # if epoch % 10 == 0:
-            #     print(f'Epoch {epoch}/{epochs}, loss: {loss:.4f}, accuracy: {accuracy:.4f}')
             loss_list.append(loss)
             accuracy_list.append(accuracy)
                 
@@ -92,7 +85,6 @@ class NeuralNetwork:
 
     def eval(self, test_data):
         return self.forward(test_data)
-
 
     def layer_gradients(self, v, index):
         W = self.weights[index]
@@ -103,9 +95,7 @@ class NeuralNetwork:
         sigma_prime_v = sigma_prime * v
 
         v = np.dot(sigma_prime_v, W.T)
-        ## do we need to divide by m or not?
         dW = np.dot(X.T, sigma_prime_v) / m
-        ## do we need to divide by m or not?
         db = np.sum(sigma_prime_v, axis=0, keepdims=True) / m
         
         self.gradient_W.insert(0, dW)
@@ -123,10 +113,8 @@ class NeuralNetwork:
         sigma_prime = self.activation(np.dot(X, W) + b, True)
         sigma_prime_W2T_v = sigma_prime * np.dot(v, W2.T)
 
-        ## do we need to divide by m or not?
         dW = np.dot(X.T, sigma_prime_W2T_v) / m
         dW2 = np.dot(X_next.T, v) / m
-        ## do we need to divide by m or not?
         db = np.sum(sigma_prime_W2T_v, axis=0, keepdims=True) / m
         v = v + np.dot(sigma_prime_W2T_v, W.T)
 
@@ -141,7 +129,7 @@ class NeuralNetwork:
         W = self.weights[-1]
         X = self.X_arrays[-1]
         soft_minus_C = X_soft
-        soft_minus_C[np.arange(m), Y] -= 1 #substract 1 from the correct class probabilty for each input
+        soft_minus_C[np.arange(m), Y] -= 1
         soft_minus_C /= m
         v = np.dot(soft_minus_C, W.T)
         dW = np.dot(X.T, soft_minus_C)
@@ -151,7 +139,7 @@ class NeuralNetwork:
         self.gradient_B.insert(0, db)
 
         if self.is_resNet:
-            self.gradient_W2.insert(0, dW)   ## dummy gradient for the last layer
+            self.gradient_W2.insert(0, dW)   # dummy gradient for the last layer
 
         return v
 
@@ -163,7 +151,7 @@ class NeuralNetwork:
     
     def calculate_accuracy(self, X, Y):
         X_soft = self.forward(X)
-        class_predictions = np.argmax(X_soft, axis=1) # get the predicted class for each input
+        class_predictions = np.argmax(X_soft, axis=1)
         correct = np.sum(class_predictions == Y)
         accuracy = correct / Y.shape[0]
         return accuracy
@@ -176,7 +164,7 @@ class NeuralNetwork:
             n_1 = self.layers[i+1]
             n_2 = self.layers[i]
             W = np.random.randn(n_2, n_1)
-            W /= np.linalg.norm(W)  # Normalize weights
+            W /= np.linalg.norm(W)
             W2 = np.random.randn(n_2, n_1)
             W2 /= np.linalg.norm(W2)
             weights.append(W)

@@ -6,8 +6,7 @@ import os
 
 if __name__ == "__main__":
 
-# classifier (1.1)
-    # Generate data
+# Classifier (1.1)
     n_samples, n_features, n_classes = 100, 20, 5
     np.random.seed(42)
     X = np.random.randn(n_samples, n_features) 
@@ -22,7 +21,7 @@ if __name__ == "__main__":
     Grad_test.softmax_gradient_test(F, g_F, W, b,)
     print()
 
-# SGD (1.2)
+# Synthetic SGD (1.2)
     print("synthetic SGD check:")
     lr, batch_size, epochs = 0.1, 32, 200
     samples, features = 100, 200

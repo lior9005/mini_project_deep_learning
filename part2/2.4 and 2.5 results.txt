@@ -1,0 +1,190 @@
+#2.4
+Datasets/GMMData.mat
+Hidden layers: [], Learning rate: 0.1, Batch size: 32, Accuracy: 0.86992, Training time: 4.16 seconds
+Hidden layers: [], Learning rate: 0.1, Batch size: 64, Accuracy: 0.86864, Training time: 2.29 seconds
+Hidden layers: [], Learning rate: 0.1, Batch size: 128, Accuracy: 0.86848, Training time: 1.52 seconds
+Hidden layers: [], Learning rate: 0.01, Batch size: 32, Accuracy: 0.86864, Training time: 3.87 seconds
+Hidden layers: [], Learning rate: 0.01, Batch size: 64, Accuracy: 0.86976, Training time: 2.52 seconds
+Hidden layers: [], Learning rate: 0.01, Batch size: 128, Accuracy: 0.86976, Training time: 1.74 seconds
+Hidden layers: [], Learning rate: 0.001, Batch size: 32, Accuracy: 0.86944, Training time: 3.89 seconds
+Hidden layers: [], Learning rate: 0.001, Batch size: 64, Accuracy: 0.8688, Training time: 2.51 seconds
+Hidden layers: [], Learning rate: 0.001, Batch size: 128, Accuracy: 0.86832, Training time: 1.58 seconds
+Hidden layers: [10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.98848, Training time: 7.42 seconds 
+Hidden layers: [10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.98672, Training time: 4.73 seconds
+Hidden layers: [10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.9864, Training time: 3.14 seconds
+Hidden layers: [10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.98592, Training time: 7.77 seconds
+Hidden layers: [10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.96032, Training time: 4.79 seconds
+Hidden layers: [10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.92864, Training time: 3.15 seconds
+Hidden layers: [10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.89936, Training time: 7.74 seconds
+Hidden layers: [10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.89024, Training time: 4.75 seconds
+Hidden layers: [10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.84416, Training time: 3.10 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.99056, Training time: 14.61 seconds - Best for GMMData
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.98848, Training time: 8.98 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.98416, Training time: 6.62 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.98768, Training time: 15.15 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.88864, Training time: 8.69 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.80064, Training time: 5.59 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.80064, Training time: 14.34 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.80064, Training time: 8.60 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.80064, Training time: 5.68 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.98992, Training time: 22.12 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.98256, Training time: 13.01 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.80064, Training time: 8.78 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.80064, Training time: 22.11 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.80064, Training time: 12.90 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.80064, Training time: 8.68 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.80064, Training time: 24.89 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.80064, Training time: 14.45 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.80064, Training time: 8.85 seconds
+Hidden layers: [50], Learning rate: 0.1, Batch size: 32, Accuracy: 0.98944, Training time: 10.75 seconds
+Hidden layers: [50], Learning rate: 0.1, Batch size: 64, Accuracy: 0.98848, Training time: 7.73 seconds
+Hidden layers: [50], Learning rate: 0.1, Batch size: 128, Accuracy: 0.98816, Training time: 5.91 seconds
+Hidden layers: [50], Learning rate: 0.01, Batch size: 32, Accuracy: 0.9872, Training time: 10.85 seconds
+Hidden layers: [50], Learning rate: 0.01, Batch size: 64, Accuracy: 0.98096, Training time: 7.93 seconds
+Hidden layers: [50], Learning rate: 0.01, Batch size: 128, Accuracy: 0.93344, Training time: 6.10 seconds
+Hidden layers: [50], Learning rate: 0.001, Batch size: 32, Accuracy: 0.91072, Training time: 10.64 seconds
+Hidden layers: [50], Learning rate: 0.001, Batch size: 64, Accuracy: 0.8896, Training time: 7.57 seconds
+Hidden layers: [50], Learning rate: 0.001, Batch size: 128, Accuracy: 0.82192, Training time: 6.43 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 32, Accuracy: 0.9912, Training time: 32.00 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 64, Accuracy: 0.98864, Training time: 23.50 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 128, Accuracy: 0.98768, Training time: 18.59 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 32, Accuracy: 0.98768, Training time: 28.99 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 64, Accuracy: 0.80064, Training time: 22.37 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 128, Accuracy: 0.80064, Training time: 18.46 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 32, Accuracy: 0.80064, Training time: 28.02 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 64, Accuracy: 0.80064, Training time: 22.62 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 128, Accuracy: 0.80064, Training time: 18.39 seconds
+
+Datasets/GMMData.mat - ResNet
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.99056, Training time: 16.98 seconds - Best for GMMData ResNet
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.98976, Training time: 10.80 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.9872, Training time: 7.87 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.98704, Training time: 23.19 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.97968, Training time: 11.57 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.8744, Training time: 7.04 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.88912, Training time: 18.01 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.83584, Training time: 10.80 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.80304, Training time: 6.97 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.99088, Training time: 29.13 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.9896, Training time: 17.86 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.98864, Training time: 10.54 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.988, Training time: 27.37 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.98704, Training time: 18.66 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.91504, Training time: 11.16 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.89088, Training time: 44.22 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.884, Training time: 15.74 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.81488, Training time: 11.49 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 32, Accuracy: 0.9912, Training time: 45.91 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 64, Accuracy: 0.99024, Training time: 32.78 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 128, Accuracy: 0.98784, Training time: 28.94 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 32, Accuracy: 0.9888, Training time: 41.51 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 64, Accuracy: 0.9856, Training time: 50.14 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 128, Accuracy: 0.92112, Training time: 45.95 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 32, Accuracy: 0.9016, Training time: 80.66 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 64, Accuracy: 0.892, Training time: 58.05 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 128, Accuracy: 0.82464, Training time: 46.95 seconds
+
+SwissRollData.mat
+Hidden layers: [], Learning rate: 0.1, Batch size: 32, Accuracy: 0.4864, Training time: 3.81 seconds
+Hidden layers: [], Learning rate: 0.1, Batch size: 64, Accuracy: 0.5278, Training time: 2.33 seconds
+Hidden layers: [], Learning rate: 0.1, Batch size: 128, Accuracy: 0.4396, Training time: 1.50 seconds
+Hidden layers: [], Learning rate: 0.01, Batch size: 32, Accuracy: 0.5594, Training time: 3.64 seconds
+Hidden layers: [], Learning rate: 0.01, Batch size: 64, Accuracy: 0.5238, Training time: 2.70 seconds
+Hidden layers: [], Learning rate: 0.01, Batch size: 128, Accuracy: 0.563, Training time: 1.56 seconds
+Hidden layers: [], Learning rate: 0.001, Batch size: 32, Accuracy: 0.5384, Training time: 3.88 seconds
+Hidden layers: [], Learning rate: 0.001, Batch size: 64, Accuracy: 0.5122, Training time: 2.41 seconds
+Hidden layers: [], Learning rate: 0.001, Batch size: 128, Accuracy: 0.5212, Training time: 1.80 seconds
+Hidden layers: [10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.5128, Training time: 7.79 seconds
+Hidden layers: [10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.515, Training time: 8.31 seconds
+Hidden layers: [10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.5132, Training time: 4.80 seconds
+Hidden layers: [10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.5162, Training time: 13.74 seconds
+Hidden layers: [10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.5264, Training time: 9.03 seconds
+Hidden layers: [10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.607, Training time: 5.54 seconds
+Hidden layers: [10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.5724, Training time: 9.55 seconds
+Hidden layers: [10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.5822, Training time: 4.50 seconds
+Hidden layers: [10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.5402, Training time: 3.13 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.951, Training time: 12.73 seconds - Best for SwissRollData
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.5192, Training time: 11.57 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.6, Training time: 5.54 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.5528, Training time: 13.23 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.5388, Training time: 7.47 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.5808, Training time: 4.41 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.6122, Training time: 11.95 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.5386, Training time: 7.11 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.5226, Training time: 4.49 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.5202, Training time: 17.92 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.4896, Training time: 10.44 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.5104, Training time: 6.89 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.5104, Training time: 18.57 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.5104, Training time: 10.74 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.5104, Training time: 6.45 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.5104, Training time: 18.33 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.5104, Training time: 10.94 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.5104, Training time: 7.18 seconds
+Hidden layers: [50], Learning rate: 0.1, Batch size: 32, Accuracy: 0.5694, Training time: 8.03 seconds
+Hidden layers: [50], Learning rate: 0.1, Batch size: 64, Accuracy: 0.5134, Training time: 5.82 seconds
+Hidden layers: [50], Learning rate: 0.1, Batch size: 128, Accuracy: 0.5144, Training time: 4.68 seconds
+Hidden layers: [50], Learning rate: 0.01, Batch size: 32, Accuracy: 0.5146, Training time: 9.18 seconds
+Hidden layers: [50], Learning rate: 0.01, Batch size: 64, Accuracy: 0.5202, Training time: 5.74 seconds
+Hidden layers: [50], Learning rate: 0.01, Batch size: 128, Accuracy: 0.5222, Training time: 4.28 seconds
+Hidden layers: [50], Learning rate: 0.001, Batch size: 32, Accuracy: 0.5342, Training time: 9.26 seconds
+Hidden layers: [50], Learning rate: 0.001, Batch size: 64, Accuracy: 0.631, Training time: 5.93 seconds
+Hidden layers: [50], Learning rate: 0.001, Batch size: 128, Accuracy: 0.565, Training time: 4.58 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 32, Accuracy: 0.971, Training time: 22.39 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 64, Accuracy: 0.515, Training time: 18.18 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 128, Accuracy: 0.5878, Training time: 14.75 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 32, Accuracy: 0.6012, Training time: 22.54 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 64, Accuracy: 0.508, Training time: 17.60 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 128, Accuracy: 0.5104, Training time: 16.73 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 32, Accuracy: 0.5358, Training time: 30.46 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 64, Accuracy: 0.5104, Training time: 17.70 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 128, Accuracy: 0.5104, Training time: 15.49 seconds
+
+SwissRollData.mat - ResNet
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.936, Training time: 30.83 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.512, Training time: 18.18 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.5136, Training time: 11.59 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.5134, Training time: 32.04 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.5204, Training time: 18.15 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.5778, Training time: 5.78 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.604, Training time: 15.05 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.6046, Training time: 9.32 seconds
+Hidden layers: [10, 10, 10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.548, Training time: 7.29 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 32, Accuracy: 0.9718, Training time: 30.73 seconds - Best for SwissRollData ResNet
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 64, Accuracy: 0.5128, Training time: 17.02 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.1, Batch size: 128, Accuracy: 0.5152, Training time: 9.16 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 32, Accuracy: 0.5152, Training time: 22.20 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 64, Accuracy: 0.519, Training time: 14.05 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.01, Batch size: 128, Accuracy: 0.5842, Training time: 9.21 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 32, Accuracy: 0.5894, Training time: 22.22 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 64, Accuracy: 0.5968, Training time: 12.66 seconds
+Hidden layers: [10, 10, 10, 10, 10], Learning rate: 0.001, Batch size: 128, Accuracy: 0.5972, Training time: 9.14 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 32, Accuracy: 0.9706, Training time: 32.39 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 64, Accuracy: 0.5126, Training time: 25.81 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.1, Batch size: 128, Accuracy: 0.5152, Training time: 22.51 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 32, Accuracy: 0.515, Training time: 33.55 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 64, Accuracy: 0.5208, Training time: 30.54 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.01, Batch size: 128, Accuracy: 0.5276, Training time: 22.28 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 32, Accuracy: 0.5444, Training time: 32.31 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 64, Accuracy: 0.557, Training time: 26.04 seconds
+Hidden layers: [50, 50, 50], Learning rate: 0.001, Batch size: 128, Accuracy: 0.6086, Training time: 22.24 seconds
+
+#2.5
+SwissRollData.mat
+resNet: False, layers: [2, 39, 2], Params: 197, accuracy: 0.5136
+resNet: False, layers: [2, 11, 11, 2], Params: 189, accuracy: 0.5132
+resNet: False, layers: [2, 5, 6, 7, 9, 2], Params: 192, accuracy: 0.5156
+resNet: False, layers: [2, 9, 7, 6, 5, 2], Params: 192, accuracy: 0.9386
+resNet: False, layers: [2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2], Params: 182, accuracy: 0.5104
+resNet: True, layers: [2, 8, 8, 2], Params: 178, accuracy: 0.7828
+resNet: True, layers: [2, 6, 6, 6, 2], Params: 188, accuracy: 0.9548 : best for swissroll
+resNet: True, layers: [2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2], Params: 185, accuracy: 0.9426
+Datasets/GMMData.mat
+resNet: False, layers: [5, 45, 5], Params: 362, accuracy: 0.99056
+resNet: False, layers: [5, 17, 17, 5], Params: 444, accuracy: 0.9912
+resNet: False, layers: [5, 5, 10, 12, 15, 5], Params: 449, accuracy: 0.98784
+resNet: False, layers: [5, 15, 12, 10, 5, 5], Params: 479, accuracy: 0.9896
+resNet: False, layers: [5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5], Params: 470, accuracy: 0.80064
+resNet: True, layers: [5, 13, 13, 5], Params: 457, accuracy: 0.99152 : best for GMMData
+resNet: True, layers: [5, 9, 9, 9, 5], Params: 416, accuracy: 0.9904
+resNet: True, layers: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5], Params: 482, accuracy: 0.98896
