@@ -71,15 +71,14 @@ def best_SGD_params(data_path, lr, batch_size, epochs):
                 best_batch_size = batch_size[j]
             print()
     print(f"Best validation accuracy: {best_avg_val_acc:.4f} with learning rate: {best_lr} and batch size: {best_batch_size}")            
-    plot_accuracies(best_train_acc_plot, best_val_acc_plot)
+    plot_accuracies(best_train_acc_plot, best_val_acc_plot, data_path)
     
 def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
     print(f"Training with learning rate: {lr}, batch size: {batch_size}, epochs: {epochs}")
     num_of_tries = 30
     num_features = X_train.shape[1]
     num_classes = len(np.unique(y_train))
-    W = np.random.randn(num_features, num_classes)
-    W /= np.linalg.norm(W)
+    W = np.random.randn(num_features, num_classes)/num_features
     b = np.zeros((1, num_classes))
     
     train_accuracies = []
@@ -93,21 +92,16 @@ def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
         train_data = X_train[shuffled_indices]
         Y = y_train[shuffled_indices]
 
-        # Mini-batch SGD
         for i in range(len(train_data) // batch_size):
             batch_X, batch_Y = get_batch(train_data, Y, batch_size, i)
-            # Compute gradients for W and b
             dW, db = Utils.softmax_gradient(batch_X, batch_Y, W, b)
-
             W -= lr * dW
             b -= lr * db
-        
-        # Track training accuracy
+
         X_sample, Y_sample = Utils.get_samples(X_train, y_train, batch_size)
         train_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         train_accuracies.append(train_acc)
         
-        # Track validation accuracy
         X_sample, Y_sample = Utils.get_samples(X_val, y_val, batch_size)
         val_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         val_accuracies.append(val_acc)
@@ -119,7 +113,6 @@ def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
         else:
             epochs_without_improvement += 1
 
-        # Stop early if there is no improvement
         if epochs_without_improvement >= num_of_tries:
             print(f"Early stopping at epoch {epoch + 1}")
             break
@@ -129,15 +122,17 @@ def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
     return train_accuracies, val_accuracies, avg_val_acc
 
 
-def plot_accuracies(train_accuracies, val_accuracies):
+def plot_accuracies(train_accuracies, val_accuracies, fileName):
     plt.figure(figsize=(10, 6))
     plt.plot(range(len(train_accuracies)), train_accuracies, label="Training Accuracy", linewidth=2)
     plt.plot(range(len(val_accuracies)), val_accuracies, label="Validation Accuracy", linewidth=2)
     plt.xlabel("Epoch", fontsize=14)
     plt.ylabel("Accuracy", fontsize=14)
-    plt.title("SGD", fontsize=16)
+    plt.title(f"{fileName} - SGD", fontsize=16)
     plt.legend(fontsize=12)
     plt.grid(True)
+    plt.ylim(0, 1)
+    
     plt.show()
 
 def get_batch(train_data, y, batch_size, batch_index):

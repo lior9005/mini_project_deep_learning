@@ -30,8 +30,8 @@ if __name__ == "__main__":
     
 # SGD (1.3)
     print("SGD check:")
-    lr = [0.001, 0.01, 0.1, 1]
-    batch_size = [10, 50, 100, 200]
+    lr = [0.0001 ,0.001, 0.01]
+    batch_size = [50,100,200]
     data_path = ["Datasets/GMMData.mat", "Datasets/PeaksData.mat", "Datasets/SwissRollData.mat"]
     for path in data_path:
         print(f"dataset: {os.path.basename(path)}")

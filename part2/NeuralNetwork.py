@@ -163,10 +163,8 @@ class NeuralNetwork:
         for i in range(len(self.layers) - 1):
             n_1 = self.layers[i+1]
             n_2 = self.layers[i]
-            W = np.random.randn(n_2, n_1)
-            W /= np.linalg.norm(W)
-            W2 = np.random.randn(n_2, n_1)
-            W2 /= np.linalg.norm(W2)
+            W = np.random.randn(n_2, n_1)/ n_1
+            W2 = np.random.randn(n_2, n_1) / n_1
             weights.append(W)
             weights2.append(W2)
             biases.append(np.zeros((1, n_1)))

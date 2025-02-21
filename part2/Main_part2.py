@@ -40,11 +40,11 @@ if __name__ == "__main__":
         # 2.4 Network lengths experiments
         data_sets = ["Datasets/GMMData.mat", "Datasets/SwissRollData.mat"]
         hidden_layers = [
-                        [],
-                        [10],
+                        # [],
+                        # [10],
                         [10, 10, 10],
                         [10, 10, 10, 10, 10],
-                        [50],
+                        # [50],
                         [50, 50, 50]
                         ]
         learning_rates = [0.1, 0.01, 0.001]
