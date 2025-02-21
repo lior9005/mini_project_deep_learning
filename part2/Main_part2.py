@@ -16,11 +16,15 @@ import part1.Grad_test as grad_test
 if __name__ == "__main__":
 
         # 2.1
-        Jac_test.jac_test_layer(2, 3)
+        Jac_test.jac_test_layer(2, 3, "W")
+        Jac_test.jac_test_layer(2, 3, "b")
+
         Jac_test.jac_test_softmax_layer(2, 3)
 
         # 2.2
-        Jac_test.jac_test_resnet_layer(5)
+        Jac_test.jac_test_resnet_layer(5, "W1")
+        Jac_test.jac_test_resnet_layer(5, "W2")
+        Jac_test.jac_test_resnet_layer(5, "b")
         
         # 2.3
         train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/PeaksData.mat")
@@ -50,7 +54,7 @@ if __name__ == "__main__":
         learning_rates = [0.1, 0.01, 0.001]
         batch_sizes = [32, 64, 128]
         epochs = 200
-        is_resNet = True
+        is_resNet = False
 
         for data_set in data_sets:
                 train_data, train_labels, val_data, val_labels = Utils.load_data(data_set)

@@ -19,9 +19,9 @@ def get_samples(X, Y, n_samples):
 def load_data(path):
     dataset = scipy.io.loadmat(path)
     train_data = dataset['Yt'].T  
-    train_labels = dataset['Ct'].flatten()[:train_data.shape[0]].astype(int)
-    val_data = dataset['Yv'].T
-    val_labels = dataset['Cv'].flatten()[:val_data.shape[0]].astype(int)
+    val_data = dataset['Yv'].T   
+    train_labels = np.argmax(dataset['Ct'], axis=0)  
+    val_labels = np.argmax(dataset['Cv'], axis=0)    
     return train_data, train_labels, val_data, val_labels
 
 def softmax(X):
