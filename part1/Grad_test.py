@@ -1,9 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from part2 import NeuralNetwork
 
 def plot_grad_test(y0, y1,max_iter, title):
-    # Plotting
     plt.figure()
     plt.semilogy(range(max_iter), y0, label="Zero order approx (O(ϵ))")
     plt.semilogy(range(max_iter), y1, label="First order approx (O(ϵ²))")

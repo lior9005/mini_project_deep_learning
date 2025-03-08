@@ -5,7 +5,6 @@ import time
 # Add the parent directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 from NeuralNetwork import NeuralNetwork
@@ -14,15 +13,14 @@ import Jac_test
 import matplotlib.pyplot as plt
 import part1.Grad_test as grad_test
 
-
 if __name__ == "__main__":
-       
-        train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
 
-        # 2.1 + 2.2
+        # 2.1
         Jac_test.jac_test_layer(2, 3)
-        Jac_test.jac_test_resnet_layer(5)
         Jac_test.jac_test_softmax_layer(2, 3)
+
+        # 2.2
+        Jac_test.jac_test_resnet_layer(5)
         
         # 2.3
         train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/PeaksData.mat")
@@ -42,24 +40,25 @@ if __name__ == "__main__":
         # 2.4 Network lengths experiments
         data_sets = ["Datasets/GMMData.mat", "Datasets/SwissRollData.mat"]
         hidden_layers = [
-                        [],
-                        [10],
+                        # [],
+                        # [10],
                         [10, 10, 10],
                         [10, 10, 10, 10, 10],
-                        [50],
+                        # [50],
                         [50, 50, 50]
                         ]
         learning_rates = [0.1, 0.01, 0.001]
         batch_sizes = [32, 64, 128]
         epochs = 200
+        is_resNet = True
 
         for data_set in data_sets:
                 train_data, train_labels, val_data, val_labels = Utils.load_data(data_set)
                 for hidden_layer in hidden_layers:
                         layers = [train_data.shape[1]] + hidden_layer + [len(np.unique(train_labels))]
                         for learning_rate in learning_rates:
-                                model = NeuralNetwork(layers, 'ReLU', False)
                                 for batch_size in batch_sizes:
+                                        model = NeuralNetwork(layers, 'ReLU', is_resNet)
                                         start_time = time.time()
                                         loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
                                         end_time = time.time()

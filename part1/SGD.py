@@ -37,24 +37,21 @@ def synthetic_sgd(X, y, lambda_, lr, mini_batch_size, epochs):
     loss = []
 
     for epoch in range(1, epochs):
-        
         # Reduce the learning rate every 50 epochs
         if epoch % 50 == 0:
             lr *= 0.5
             print("Learning rate:", lr)
 
-        #shuffle the data indices
         idxs = np.random.permutation(m)
 
         for k in range(m // mini_batch_size):
             Ib = idxs[k * mini_batch_size:(k + 1) * mini_batch_size]  
             Xb = X[Ib, :]  
             grad = (1.0 / mini_batch_size) * Xb.T @ (Xb @ w - y[Ib]) + lambda_ * w
-            w -= lr * grad  # Update weights
+            w -= lr * grad
         
         # Compute the MSE for the entire dataset
         mse = Utils.compute_mse(w, X, y)
-        
         loss.append(mse)
     return loss
 
@@ -74,46 +71,37 @@ def best_SGD_params(data_path, lr, batch_size, epochs):
                 best_batch_size = batch_size[j]
             print()
     print(f"Best validation accuracy: {best_avg_val_acc:.4f} with learning rate: {best_lr} and batch size: {best_batch_size}")            
-    plot_accuracies(best_train_acc_plot, best_val_acc_plot)
+    plot_accuracies(best_train_acc_plot, best_val_acc_plot, data_path)
     
 def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
     print(f"Training with learning rate: {lr}, batch size: {batch_size}, epochs: {epochs}")
     num_of_tries = 30
     num_features = X_train.shape[1]
     num_classes = len(np.unique(y_train))
-    W = np.random.randn(num_features, num_classes)  # Initialize weights (n_features x n_classes)
-    W /= np.linalg.norm(W)  # Normalize weights
+    W = np.random.randn(num_features, num_classes)/num_features
     b = np.zeros((1, num_classes))
     
     train_accuracies = []
     val_accuracies = []
     avg_val_acc = 0
-    best_val_acc = -np.inf  # Initialize the best validation accuracy
+    best_val_acc = 0
     epochs_without_improvement = 0  # Track how many epochs without improvement
 
     for epoch in range(epochs):
-        # Shuffle data
         shuffled_indices = np.random.permutation(len(X_train))
         train_data = X_train[shuffled_indices]
         Y = y_train[shuffled_indices]
 
-        # Mini-batch SGD
         for i in range(len(train_data) // batch_size):
             batch_X, batch_Y = get_batch(train_data, Y, batch_size, i)
-            
-            # Compute gradients for W and b
             dW, db = Utils.softmax_gradient(batch_X, batch_Y, W, b)
-
-            # Update weights and biases
             W -= lr * dW
             b -= lr * db
-        
-        # Track training accuracy
+
         X_sample, Y_sample = Utils.get_samples(X_train, y_train, batch_size)
         train_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         train_accuracies.append(train_acc)
         
-        # Track validation accuracy
         X_sample, Y_sample = Utils.get_samples(X_val, y_val, batch_size)
         val_acc = Utils.compute_accuracy(X_sample, Y_sample, W, b)
         val_accuracies.append(val_acc)
@@ -125,26 +113,26 @@ def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
         else:
             epochs_without_improvement += 1
 
-        # Stop early if no improvement for 'patience' epochs
         if epochs_without_improvement >= num_of_tries:
             print(f"Early stopping at epoch {epoch + 1}")
             break
 
-        # Print progress every 10 epochs
     avg_val_acc = np.mean(val_accuracies[-10:])
     print(f"Training Accuracy: {train_acc:.4f}, Average Validation Accuracy (last 10 epochs): {avg_val_acc:.4f}")
     return train_accuracies, val_accuracies, avg_val_acc
 
 
-def plot_accuracies(train_accuracies, val_accuracies):
+def plot_accuracies(train_accuracies, val_accuracies, fileName):
     plt.figure(figsize=(10, 6))
     plt.plot(range(len(train_accuracies)), train_accuracies, label="Training Accuracy", linewidth=2)
     plt.plot(range(len(val_accuracies)), val_accuracies, label="Validation Accuracy", linewidth=2)
     plt.xlabel("Epoch", fontsize=14)
     plt.ylabel("Accuracy", fontsize=14)
-    plt.title("SGD", fontsize=16)
+    plt.title(f"{fileName} - SGD", fontsize=16)
     plt.legend(fontsize=12)
     plt.grid(True)
+    plt.ylim(0, 1)
+    
     plt.show()
 
 def get_batch(train_data, y, batch_size, batch_index):

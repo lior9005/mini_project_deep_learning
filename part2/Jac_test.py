@@ -1,6 +1,4 @@
 import numpy as np
-import part1.Utils as Utils
-import NeuralNetwork
 import part1.Grad_test as grad_test
 
 def jac_test_layer(in_dim, out_dim):
@@ -23,6 +21,7 @@ def jac_test_layer(in_dim, out_dim):
 
     grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test')
 
+
 def jac_test_resnet_layer(dim):
     X_rand = np.random.randn(1, dim)
     u = np.random.randn(dim)
@@ -44,6 +43,7 @@ def jac_test_resnet_layer(dim):
 
     grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test - ResNet')
 
+
 def jac_test_softmax_layer(in_dim, out_dim):
     X_rand = np.random.randn(1, in_dim)
     Y = np.random.randint(0, out_dim, size=1)
@@ -62,16 +62,17 @@ def jac_test_softmax_layer(in_dim, out_dim):
         softmax_X = np.exp(X_next - np.max(X_next, axis=1, keepdims=True))
         softmax_X /= np.sum(softmax_X, axis=1, keepdims=True)
 
-        softmax_X[0, Y] -= 1 #substract 1 from the correct class probabilty for each input
+        softmax_X[0, Y] -= 1
         grad_X = np.dot(softmax_X, W.T)
 
         return grad_X
 
     grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test - Softmax')
 
+
 def initialize_weight_and_bias(in_dim, out_dim):
     W = np.random.randn(in_dim, out_dim)
-    W /= np.linalg.norm(W)  # Normalize weights
+    W /= np.linalg.norm(W)
     W2 = np.random.randn(in_dim, out_dim)
     W2 /= np.linalg.norm(W2)
     b = np.random.randn(1, out_dim)
