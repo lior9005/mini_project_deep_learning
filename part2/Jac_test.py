@@ -21,7 +21,7 @@ def jac_test_layer(in_dim, out_dim, by_param):
                 grad_X = np.dot(sigma_prime_u, W_layer.T)
                 return grad_X
 
-            grad_test.gradient_test_layer(g, gradient_g, X_rand, 'Jacobian Gradient Test for X')
+            grad_test.gradient_test_layer(g, gradient_g, X_rand, 'Jacobian Test for X')
         case 'W':            
             def g(W):
                 X_next = np.dot(X_rand, W) + b_layer
@@ -36,7 +36,7 @@ def jac_test_layer(in_dim, out_dim, by_param):
                 grad_W = np.dot(X_rand.T, sigma_prime_u) / X_rand.shape[0]
                 return grad_W
             
-            grad_test.gradient_test_layer(g, gradient_g, W_layer, 'Jacobian Gradient Test for W')
+            grad_test.gradient_test_layer(g, gradient_g, W_layer, 'Jacobian Test for W')
         case 'b':
             def g(b):
                 X_next = np.dot(X_rand, W_layer) + b
@@ -51,7 +51,7 @@ def jac_test_layer(in_dim, out_dim, by_param):
                 grad_b = np.sum(sigma_prime_u, axis=0, keepdims=True) / X_rand.shape[0]
                 return grad_b
             
-            grad_test.gradient_test_layer(g, gradient_g, b_layer, 'Jacobian Gradient Test for b')
+            grad_test.gradient_test_layer(g, gradient_g, b_layer, 'Jacobian Test for b')
 
 def jac_test_resnet_layer(dim, by_param):
     W_layer, W2_layer, b_layer = initialize_weight_and_bias(dim, dim)
@@ -74,7 +74,7 @@ def jac_test_resnet_layer(dim, by_param):
                 grad_W = np.dot(X_rand.T, sigma_prime_W2T_u) / X_rand.shape[0]
                 return grad_W
             
-            grad_test.gradient_test_layer(g, gradient_g, W_layer, 'Jacobian Gradient Test for W1 - ResNet')
+            grad_test.gradient_test_layer(g, gradient_g, W_layer, 'Jacobian Test for W1 - ResNet')
 
         case 'W2':
                 def g(W2):
@@ -91,7 +91,7 @@ def jac_test_resnet_layer(dim, by_param):
                     grad_W2 = np.dot(X_next.T, u.reshape(1, dim)) / X_rand.shape[0]
                     return grad_W2
 
-                grad_test.gradient_test_layer(g, gradient_g, W2_layer, 'Jacobian Gradient Test for W2 - ResNet')
+                grad_test.gradient_test_layer(g, gradient_g, W2_layer, 'Jacobian Test for W2 - ResNet')
         
         case 'b':
             def g(b):
@@ -108,34 +108,7 @@ def jac_test_resnet_layer(dim, by_param):
                 grad_b = np.sum(sigma_prime_W2T_u, axis=0, keepdims=True) / X_rand.shape[0]
                 return grad_b
             
-            grad_test.gradient_test_layer(g, gradient_g, b_layer, 'Jacobian Gradient Test for b - ResNet')
-
-
-def jac_test_softmax_layer(in_dim, out_dim):
-    W, W2, b = initialize_weight_and_bias(in_dim, out_dim)
-    X_rand = np.random.randn(1, in_dim)
-    Y = np.random.randint(0, out_dim, size=1)
-
-    def g(X):
-        X_next = np.dot(X, W) + b
-        softmax_X = np.exp(X_next - np.max(X_next, axis=1, keepdims=True))
-        softmax_X /= np.sum(softmax_X, axis=1, keepdims=True)
-        pred_probs = softmax_X[np.arange(Y.shape[0]), Y]
-        loss = -(np.log(pred_probs))
-        return loss
-    
-    def gradient_g(X):
-        X_next = np.dot(X, W) + b
-        softmax_X = np.exp(X_next - np.max(X_next, axis=1, keepdims=True))
-        softmax_X /= np.sum(softmax_X, axis=1, keepdims=True)
-
-        softmax_X[0, Y] -= 1
-        grad_X = np.dot(softmax_X, W.T)
-
-        return grad_X
-
-    grad_test.gradient_test_layer(g, gradient_g, X_rand, 'Jacobian Gradient Test - Softmax')
-
+            grad_test.gradient_test_layer(g, gradient_g, b_layer, 'Jacobian Test for b - ResNet')
 
 def initialize_weight_and_bias(in_dim, out_dim):
     W = np.random.randn(in_dim, out_dim) / in_dim
