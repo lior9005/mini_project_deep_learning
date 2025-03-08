@@ -38,7 +38,7 @@ if __name__ == "__main__":
         grad_test.gradient_test_NN(model, data_sample, label_sample, "Gradient test for NN")
 
         # 2.4 Network lengths experiments
-        data_sets = ["Datasets/PeaksData.mat"]
+        data_sets = ["Datasets/PeaksData.mat", "Datasets/GMMData.mat"]
         hidden_layers = [
                         [],
                         [10],
