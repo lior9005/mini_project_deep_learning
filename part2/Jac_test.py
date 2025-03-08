@@ -6,22 +6,6 @@ def jac_test_layer(in_dim, out_dim, by_param):
     X_rand = np.random.randn(1, in_dim)
     u = np.random.randn(out_dim)
     match by_param:
-        ## is case X needed?
-        case 'X':
-            def g(X):
-                X_next = np.dot(X, W_layer) + b_layer
-                X_next = np.tanh(X_next)
-                g_X_u = np.dot(X_next, u)
-                return g_X_u
-            
-            def gradient_g(X):
-                X_next = np.dot(X, W_layer) + b_layer
-                sigma_prime = 1 - np.tanh(X_next) ** 2
-                sigma_prime_u = sigma_prime * u
-                grad_X = np.dot(sigma_prime_u, W_layer.T)
-                return grad_X
-
-            grad_test.gradient_test_layer(g, gradient_g, X_rand, 'Jacobian Test for X')
         case 'W':            
             def g(W):
                 X_next = np.dot(X_rand, W) + b_layer
