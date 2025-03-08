@@ -38,13 +38,13 @@ if __name__ == "__main__":
         grad_test.gradient_test_NN(model, data_sample, label_sample, "Gradient test for NN")
 
         # 2.4 Network lengths experiments
-        data_sets = ["Datasets/GMMData.mat", "Datasets/SwissRollData.mat"]
+        data_sets = ["Datasets/PeaksData.mat"]
         hidden_layers = [
-                        # [],
-                        # [10],
+                        [],
+                        [10],
                         [10, 10, 10],
                         [10, 10, 10, 10, 10],
-                        # [50],
+                        [50],
                         [50, 50, 50]
                         ]
         learning_rates = [0.1, 0.01, 0.001]
@@ -60,11 +60,11 @@ if __name__ == "__main__":
                                 for batch_size in batch_sizes:
                                         model = NeuralNetwork(layers, 'ReLU', is_resNet)
                                         start_time = time.time()
-                                        loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
+                                        _,_,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
                                         end_time = time.time()
                                         elapsed_time = end_time - start_time
                                         print(f"Data set: {data_set}, Hidden layers: {hidden_layer}, Learning rate: {learning_rate}, "
-                                                f"Batch size: {batch_size}, Accuracy: {accuracy[-1]}, "
+                                                f"Batch size: {batch_size}, Accuracy: {val_accuracy[-1]}, "
                                                 f"Training time: {elapsed_time:.2f} seconds")
 
         # 2.5 Network lenghts with paramerter constraints
@@ -73,13 +73,6 @@ if __name__ == "__main__":
         batch_size = 32
         learning_rate = 0.1
         
-        hidden_layers200 = [
-                        [39],
-                        [11, 11],
-                        [5, 6, 7, 9],
-                        [9, 7, 6, 5],
-                        [4, 4, 4, 4, 4, 4, 4, 4, 4]
-                        ]
         hidden_layers500 = [
                         [45],
                         [17, 17],
@@ -87,37 +80,32 @@ if __name__ == "__main__":
                         [15, 12, 10, 5],
                         [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
                         ]
-        hidden_layers200_resnet = [
-                        [8, 8],
-                        [6, 6, 6],
-                        [3, 3, 3, 3, 3, 3, 3, 3, 3]
-                        ]
         hidden_layers500_resnet = [
                         [13, 13],
                         [9, 9, 9],
                         [5, 5, 5, 5, 5, 5, 5, 5, 5]
                         ]
 
-        train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/SwissRollData.mat")
-        for hidden_layer in hidden_layers200:
+        train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/PeaksData.mat")
+        for hidden_layer in hidden_layers500:
                 layers = [train_data.shape[1]] + hidden_layer + [len(np.unique(train_labels))]
                 model = NeuralNetwork(layers, activation, False)
-                loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
-                print(f"Data set: SwissRollData , resNet: False, layers: {[2] + hidden_layer + [2]}, Params: {Utils.calculate_total_params(layers, False)}, accuracy: {accuracy[-1]}")
-        for hidden_layer in hidden_layers200_resnet:
+                _,_,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
+                print(f"Data set: PeaksData , resNet: False, layers: {[2] + hidden_layer + [2]}, Params: {Utils.calculate_total_params(layers, False)}, accuracy: {val_accuracy[-1]}")
+        for hidden_layer in hidden_layers500_resnet:
                 layers = [train_data.shape[1]] + hidden_layer + [len(np.unique(train_labels))]
                 model = NeuralNetwork(layers, activation, True)
-                loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
-                print(f"Data set: SwissRollData , resNet: True, layers: {[2] + hidden_layer + [2]}, Params: {Utils.calculate_total_params(layers, True)}, accuracy: {accuracy[-1]}")
+                _,_,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
+                print(f"Data set: PeaksData , resNet: True, layers: {[2] + hidden_layer + [2]}, Params: {Utils.calculate_total_params(layers, True)}, accuracy: {val_accuracy[-1]}")
 
         train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
         for hidden_layer in hidden_layers500:
                 layers = [train_data.shape[1]] + hidden_layer + [len(np.unique(train_labels))]
                 model = NeuralNetwork(layers, activation, False)
-                loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
-                print(f"Data set: GMMData , resNet: False, layers: {[5] + hidden_layer + [5]}, Params: {Utils.calculate_total_params(layers, False)}, accuracy: {accuracy[-1]}")
+                _,__cached__,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
+                print(f"Data set: GMMData , resNet: False, layers: {[5] + hidden_layer + [5]}, Params: {Utils.calculate_total_params(layers, False)}, accuracy: {val_accuracy[-1]}")
         for hidden_layer in hidden_layers500_resnet:
                 layers = [train_data.shape[1]] + hidden_layer + [len(np.unique(train_labels))]
                 model = NeuralNetwork(layers, activation, True)
-                loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
-                print(f"Data set: GMMData , resNet: True, layers: {[5] + hidden_layer + [5]}, Params: {Utils.calculate_total_params(layers, True)}, accuracy: {accuracy[-1]}")
+                _,_,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, batch_size, epochs, learning_rate)
+                print(f"Data set: GMMData , resNet: True, layers: {[5] + hidden_layer + [5]}, Params: {Utils.calculate_total_params(layers, True)}, accuracy: {val_accuracy[-1]}")
