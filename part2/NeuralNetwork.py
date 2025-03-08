@@ -64,8 +64,18 @@ class NeuralNetwork:
         return v
         
     def train(self, train_data, Y, X_val, Y_val, batch_size, epochs, learning_rate):
-        loss_list = []
-        accuracy_list = []
+        train_loss_list = []
+        train_accuracy_list = []
+        val_loss_list = []
+        val_accuracy_list = []
+        train_loss = self.calculate_loss(train_data, Y)
+        train_accuracy = self.calculate_accuracy(train_data, Y)
+        val_loss = self.calculate_loss(X_val, Y_val)
+        val_accuracy = self.calculate_accuracy(X_val, Y_val)
+        train_loss_list.append(train_loss)
+        train_accuracy_list.append(train_accuracy)
+        val_loss_list.append(val_loss)
+        val_accuracy_list.append(val_accuracy)
         for epoch in range(epochs):
             shuffled_indices = np.random.permutation(len(train_data))
             train_data = train_data[shuffled_indices]
@@ -76,12 +86,16 @@ class NeuralNetwork:
                 self.backward(X_soft, train_Y)
                 self.update_weights_biases(learning_rate)
 
-            loss = self.calculate_loss(X_val, Y_val)
-            accuracy = self.calculate_accuracy(X_val, Y_val)
-            loss_list.append(loss)
-            accuracy_list.append(accuracy)
+            train_loss = self.calculate_loss(train_data, Y)
+            train_accuracy = self.calculate_accuracy(train_data, Y)
+            val_loss = self.calculate_loss(X_val, Y_val)
+            val_accuracy = self.calculate_accuracy(X_val, Y_val)
+            train_loss_list.append(train_loss)
+            train_accuracy_list.append(train_accuracy)
+            val_loss_list.append(val_loss)
+            val_accuracy_list.append(val_accuracy)
                 
-        return loss_list, accuracy_list
+        return train_loss_list, train_accuracy_list, val_loss_list, val_accuracy_list
 
     def eval(self, test_data):
         return self.forward(test_data)

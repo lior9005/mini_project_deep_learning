@@ -25,32 +25,28 @@ if __name__ == "__main__":
         plt.ylim(0, 1)
         plt.show()
 
-    # # 2.4 GMM and Swiss Roll Data
-    # train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
-    # hidden_layers = [train_data.shape[1]] + [50, 50, 50] + [len(np.unique(train_labels))]
-    # model = NeuralNetwork(hidden_layers, 'ReLU', False)
-    # loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, 32, 200, 0.1)
-
-    # plot_accuracies(loss, accuracy, "Datasets/GMMData.mat")
-
-    # train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/PeaksData.mat")
-    # hidden_layers = [train_data.shape[1]] + [10, 10, 10, 10, 10] + [len(np.unique(train_labels))]
-    # model = NeuralNetwork(hidden_layers, 'ReLU', True)
-    # loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, 32, 200, 0.1)
-
-    # plot_accuracies(loss, accuracy, "Datasets/PeaksData.mat")
-
-    # # 2.5 Network lenghts with paramerter constraints
-    # train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
-    # hidden_layers = [train_data.shape[1]] + [9, 9, 9] + [len(np.unique(train_labels))]
-    # model = NeuralNetwork(hidden_layers, 'ReLU', True)
-    # loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, 32, 200, 0.1)
-
-    # plot_accuracies(loss, accuracy, "Datasets/GMMData.mat")
+    # 2.4 GMM and Peaks Data
+    train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
+    hidden_layers = [train_data.shape[1]] + [50, 50, 50] + [len(np.unique(train_labels))]
+    model = NeuralNetwork(hidden_layers, 'ReLU', False)
+    _,train_acc,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, 32, 200, 0.1)
+    plot_accuracies(train_acc, val_accuracy, "GMMData.mat")
 
     train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/PeaksData.mat")
-    hidden_layers = [train_data.shape[1]] + [6, 6, 6] + [len(np.unique(train_labels))]
-    model = NeuralNetwork(hidden_layers, 'ReLU', True)
-    loss, accuracy = model.train(train_data, train_labels, val_data, val_labels, 32, 200, 0.1)
+    hidden_layers = [train_data.shape[1]] + [50, 50, 50] + [len(np.unique(train_labels))]
+    model = NeuralNetwork(hidden_layers, 'ReLU', False)
+    _,train_acc,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, 32, 200, 0.1)
+    plot_accuracies(train_acc, val_accuracy, "PeaksData.mat")
 
-    plot_accuracies(loss, accuracy, "Datasets/PeaksData.mat")
+    # 2.5 Network lengths with paramerter constraints
+    train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/GMMData.mat")
+    hidden_layers = [train_data.shape[1]] + [9, 9, 9] + [len(np.unique(train_labels))]
+    model = NeuralNetwork(hidden_layers, 'ReLU', True)
+    _,train_acc,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, 32, 200, 0.1)
+    plot_accuracies(train_acc, val_accuracy, "Datasets/GMMData.mat")
+
+    train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/PeaksData.mat")
+    hidden_layers = [train_data.shape[1]] + [17,17] + [len(np.unique(train_labels))]
+    model = NeuralNetwork(hidden_layers, 'ReLU', False)
+    _,train_acc,_,val_accuracy = model.train(train_data, train_labels, val_data, val_labels, 32, 200, 0.1)
+    plot_accuracies(train_acc, val_accuracy, "Datasets/PeaksData.mat")
