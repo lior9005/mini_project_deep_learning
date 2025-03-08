@@ -78,7 +78,7 @@ def sgd(X_train, y_train, X_val, y_val, lr, batch_size, epochs):
     num_of_tries = 30
     num_features = X_train.shape[1]
     num_classes = len(np.unique(y_train))
-    W = np.random.randn(num_features, num_classes)/num_features
+    W = np.random.randn(num_features, num_classes) / num_features
     b = np.zeros((1, num_classes))
     
     train_accuracies = []

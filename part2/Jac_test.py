@@ -1,82 +1,117 @@
 import numpy as np
 import part1.Grad_test as grad_test
 
-def jac_test_layer(in_dim, out_dim):
+def jac_test_layer(in_dim, out_dim, by_param):
+    W_layer, W2_layer, b_layer = initialize_weight_and_bias(in_dim, out_dim)
     X_rand = np.random.randn(1, in_dim)
     u = np.random.randn(out_dim)
-    W, W2, b = initialize_weight_and_bias(in_dim, out_dim)
+    match by_param:
+        ## is case X needed?
+        case 'X':
+            def g(X):
+                X_next = np.dot(X, W_layer) + b_layer
+                X_next = np.tanh(X_next)
+                g_X_u = np.dot(X_next, u)
+                return g_X_u
+            
+            def gradient_g(X):
+                X_next = np.dot(X, W_layer) + b_layer
+                sigma_prime = 1 - np.tanh(X_next) ** 2
+                sigma_prime_u = sigma_prime * u
+                grad_X = np.dot(sigma_prime_u, W_layer.T)
+                return grad_X
 
-    def g_x(X):
-        X_next = np.dot(X, W) + b
-        X_next = np.tanh(X_next)
-        g_X_u = np.dot(X_next, u)
-        return g_X_u
-    
-    def gradient_g_x(X):
-        X_next = np.dot(X, W) + b
-        sigma_prime = 1 - np.tanh(X_next) ** 2
-        sigma_prime_u = sigma_prime * u
-        grad_X = np.dot(sigma_prime_u, W.T)
-        return grad_X
+            grad_test.gradient_test_layer(g, gradient_g, X_rand, 'Jacobian Test for X')
+        case 'W':            
+            def g(W):
+                X_next = np.dot(X_rand, W) + b_layer
+                X_next = np.tanh(X_next)
+                g_X_u = np.dot(X_next, u)
+                return g_X_u
+            
+            def gradient_g(W):
+                X_next = np.dot(X_rand, W) + b_layer
+                sigma_prime = 1 - np.tanh(X_next) ** 2
+                sigma_prime_u = sigma_prime * u
+                grad_W = np.dot(X_rand.T, sigma_prime_u) / X_rand.shape[0]
+                return grad_W
+            
+            grad_test.gradient_test_layer(g, gradient_g, W_layer, 'Jacobian Test for W')
+        case 'b':
+            def g(b):
+                X_next = np.dot(X_rand, W_layer) + b
+                X_next = np.tanh(X_next)
+                g_X_u = np.dot(X_next, u)
+                return g_X_u
+            
+            def gradient_g(b):
+                X_next = np.dot(X_rand, W_layer) + b
+                sigma_prime = 1 - np.tanh(X_next) ** 2
+                sigma_prime_u = sigma_prime * u
+                grad_b = np.sum(sigma_prime_u, axis=0, keepdims=True) / X_rand.shape[0]
+                return grad_b
+            
+            grad_test.gradient_test_layer(g, gradient_g, b_layer, 'Jacobian Test for b')
 
-    grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test')
-
-
-def jac_test_resnet_layer(dim):
+def jac_test_resnet_layer(dim, by_param):
+    W_layer, W2_layer, b_layer = initialize_weight_and_bias(dim, dim)
     X_rand = np.random.randn(1, dim)
     u = np.random.randn(dim)
-    W, W2, b = initialize_weight_and_bias(dim, dim)
 
-    def g_x(X):
-        X_next = np.dot(X, W) + b
-        X_next = np.tanh(X_next)
-        X_next = X + np.dot(X_next, W2)
-        g_X_u = np.dot(X_next, u)
-        return g_X_u
-    
-    def gradient_g_x(X):
-        X_next = np.dot(X, W) + b
-        sigma_prime = 1 - np.tanh(X_next) ** 2
-        sigma_prime_W2T_u = sigma_prime * np.dot(u, W2.T)
-        grad_X = u + np.dot(sigma_prime_W2T_u, W.T)
-        return grad_X
+    match by_param:
+        case 'W1':
+            def g(W):
+                X_next = np.dot(X_rand, W) + b_layer
+                X_next = np.tanh(X_next)
+                X_next = X_rand + np.dot(X_next, W2_layer)
+                g_X_u = np.dot(X_next, u)
+                return g_X_u
+            
+            def gradient_g(W):
+                X_next = np.dot(X_rand, W) + b_layer
+                sigma_prime = 1 - np.tanh(X_next) ** 2
+                sigma_prime_W2T_u = sigma_prime * np.dot(u, W2_layer.T)
+                grad_W = np.dot(X_rand.T, sigma_prime_W2T_u) / X_rand.shape[0]
+                return grad_W
+            
+            grad_test.gradient_test_layer(g, gradient_g, W_layer, 'Jacobian Test for W1 - ResNet')
 
-    grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test - ResNet')
+        case 'W2':
+                def g(W2):
+                    X_next = np.dot(X_rand, W_layer) + b_layer
+                    X_next = np.tanh(X_next)
+                    X_next = X_rand + np.dot(X_next, W2)
+                    g_X_u = np.dot(X_next, u)
+                    return g_X_u
+                
+                def gradient_g(W2):
+                    X_next = np.dot(X_rand, W_layer) + b_layer
+                    X_next = np.tanh(X_next)
+                    X_next = X_rand + np.dot(X_next, W2)
+                    grad_W2 = np.dot(X_next.T, u.reshape(1, dim)) / X_rand.shape[0]
+                    return grad_W2
 
-
-def jac_test_softmax_layer(in_dim, out_dim):
-    X_rand = np.random.randn(1, in_dim)
-    Y = np.random.randint(0, out_dim, size=1)
-    W, W2, b = initialize_weight_and_bias(in_dim, out_dim)
-
-    def g_x(X):
-        X_next = np.dot(X, W) + b
-        softmax_X = np.exp(X_next - np.max(X_next, axis=1, keepdims=True))
-        softmax_X /= np.sum(softmax_X, axis=1, keepdims=True)
-        pred_probs = softmax_X[np.arange(Y.shape[0]), Y]
-        loss = -(np.log(pred_probs))
-        return loss
-    
-    def gradient_g_x(X):
-        X_next = np.dot(X, W) + b
-        softmax_X = np.exp(X_next - np.max(X_next, axis=1, keepdims=True))
-        softmax_X /= np.sum(softmax_X, axis=1, keepdims=True)
-
-        softmax_X[0, Y] -= 1
-        grad_X = np.dot(softmax_X, W.T)
-
-        return grad_X
-
-    grad_test.gradient_test_layer(g_x, gradient_g_x, X_rand, 'Jacobian Gradient Test - Softmax')
-
+                grad_test.gradient_test_layer(g, gradient_g, W2_layer, 'Jacobian Test for W2 - ResNet')
+        
+        case 'b':
+            def g(b):
+                X_next = np.dot(X_rand, W_layer) + b
+                X_next = np.tanh(X_next)
+                X_next = X_rand + np.dot(X_next, W2_layer)
+                g_X_u = np.dot(X_next, u)
+                return g_X_u
+            
+            def gradient_g(b):
+                X_next = np.dot(X_rand, W_layer) + b
+                sigma_prime = 1 - np.tanh(X_next) ** 2
+                sigma_prime_W2T_u = sigma_prime * np.dot(u, W2_layer.T)
+                grad_b = np.sum(sigma_prime_W2T_u, axis=0, keepdims=True) / X_rand.shape[0]
+                return grad_b
+            
+            grad_test.gradient_test_layer(g, gradient_g, b_layer, 'Jacobian Test for b - ResNet')
 
 def initialize_weight_and_bias(in_dim, out_dim):
-    W = np.random.randn(in_dim, out_dim)
-    W /= np.linalg.norm(W)
-    W2 = np.random.randn(in_dim, out_dim)
-    W2 /= np.linalg.norm(W2)
-    b = np.random.randn(1, out_dim)
-    b /= np.linalg.norm(b)
+    W = np.random.randn(in_dim, out_dim) / in_dim
+    W2 = np.random.randn(in_dim, out_dim) / in_dim
+    b = np.zeros((1, out_dim))
     return W, W2, b
-
-

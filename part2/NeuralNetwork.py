@@ -177,7 +177,7 @@ class NeuralNetwork:
         for i in range(len(self.layers) - 1):
             n_1 = self.layers[i+1]
             n_2 = self.layers[i]
-            W = np.random.randn(n_2, n_1)/ n_1
+            W = np.random.randn(n_2, n_1) / n_1
             W2 = np.random.randn(n_2, n_1) / n_1
             weights.append(W)
             weights2.append(W2)
@@ -205,3 +205,32 @@ class NeuralNetwork:
         if derivative:
             return 1 - np.tanh(x) ** 2
         return np.tanh(x)
+    
+    def get_parameters_vector(self):
+        weights_flat = [W.flatten() for W in self.weights]
+        biases_flat = [b.flatten() for b in self.biases]
+        params_vector = np.concatenate(weights_flat + biases_flat)
+        return params_vector
+    
+    def get_derivatives_vector(self):
+        weights_flat = [W.flatten() for W in self.gradient_W]
+        biases_flat = [b.flatten() for b in self.gradient_B]
+        params_vector = np.concatenate(weights_flat + biases_flat)
+        return params_vector
+    
+    def set_parameters_from_vector(self, param_vector):
+        index = 0 
+
+        # Reconstruct weights
+        for i in range(len(self.weights)):
+            rows, cols = self.weights[i].shape
+            size = rows * cols
+            self.weights[i] = param_vector[index:index + size].reshape(rows, cols)
+            index += size
+
+        # Reconstruct biases
+        for i in range(len(self.biases)):
+            size = self.biases[i].shape[1]  # Biases are stored as (1, n) matrices
+            self.biases[i] = param_vector[index:index + size].reshape(1, size)
+            index += size
+

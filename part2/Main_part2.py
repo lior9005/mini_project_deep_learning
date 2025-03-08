@@ -16,11 +16,13 @@ import part1.Grad_test as grad_test
 if __name__ == "__main__":
 
         # 2.1
-        Jac_test.jac_test_layer(2, 3)
-        Jac_test.jac_test_softmax_layer(2, 3)
+        Jac_test.jac_test_layer(2, 3, "W")
+        Jac_test.jac_test_layer(2, 3, "b")
 
         # 2.2
-        Jac_test.jac_test_resnet_layer(5)
+        Jac_test.jac_test_resnet_layer(5, "W1")
+        Jac_test.jac_test_resnet_layer(5, "W2")
+        Jac_test.jac_test_resnet_layer(5, "b")
         
         # 2.3
         train_data, train_labels, val_data, val_labels = Utils.load_data("Datasets/PeaksData.mat")
@@ -31,11 +33,9 @@ if __name__ == "__main__":
         model_layers = [train_data.shape[1]] + hidden_layer + [len(np.unique(train_labels))]
 
         model = NeuralNetwork(model_layers, activation, resNet)
-
-        F = lambda X: model.calculate_loss(X, train_labels)
-        g_F = lambda X: model.backward(model.forward(X), train_labels)
-
-        grad_test.gradient_test_layer(F, g_F, train_data, "Gradient test for NN")
+        data_sample = np.array([train_data[0]])
+        label_sample = np.array([train_labels[0]])
+        grad_test.gradient_test_NN(model, data_sample, label_sample, "Gradient test for NN")
 
         # 2.4 Network lengths experiments
         data_sets = ["Datasets/PeaksData.mat"]
